@@ -2,6 +2,7 @@
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+!.elasticbeanstalk/node.config
 
 # Node and PhantomJS
 ghostdriver.log
