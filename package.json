@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "phantomjs": "^2.1.7"
+    "phantomjs": "2.1.7"
   },
   "devDependencies": {},
   "scripts": {

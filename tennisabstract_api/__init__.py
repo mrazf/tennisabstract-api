@@ -2,9 +2,7 @@ from flask import Flask, jsonify
 from selenium import webdriver
 
 app = Flask(__name__)
-app.config.from_envvar('TENNIS_ABSTRACT_CONFIG')
-
-driver = webdriver.PhantomJS(app.config['PHANTOM_PATH'])
+driver = webdriver.PhantomJS('./node_modules/phantomjs/bin/phantomjs')
 
 @app.route("/api/player/<name>")
 def player(name):
