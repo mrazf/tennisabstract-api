@@ -2,13 +2,14 @@ from flask import Flask, jsonify
 from selenium import webdriver
 
 app = Flask(__name__)
-driver = webdriver.PhantomJS("/Users/farrem09/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs")
+app.config.from_envvar('TENNIS_ABSTRACT_CONFIG')
+
+driver = webdriver.PhantomJS(app.config['PHANTOM_PATH'])
 
 @app.route("/api/player/<name>")
 def player(name):
     driver.get("http://www.tennisabstract.com/cgi-bin/player.cgi?p=" + name)
     biography = driver.find_element_by_id("biog")
-    print biography.text
     player_name = biography.find_element_by_xpath("./table/tbody/tr[1]/td/span").text
     player_dob = biography.find_element_by_xpath("./table/tbody/tr[2]/td").text
 
