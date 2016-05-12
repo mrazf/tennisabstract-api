@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from selenium import webdriver
 
-app = Flask(__name__)
+app = application = Flask(__name__)
 driver = webdriver.PhantomJS('./node_modules/phantomjs/bin/phantomjs')
 
 @app.route("/api/player/<name>")
