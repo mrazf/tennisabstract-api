@@ -9,7 +9,6 @@ driver = webdriver.PhantomJS('./node_modules/phantomjs/bin/phantomjs')
 @app.route("/api/player/<name>")
 def player(name):
     result = get_from_cache(name)
-    print result
     if result: return result
 
     driver.get("http://www.tennisabstract.com/cgi-bin/player.cgi?p=" + name)
@@ -21,7 +20,7 @@ def player(name):
         "name": player_name,
         "dateOfBirth": player_dob
     })
-    store_in_cache(name, result)
+    store_in_cache(name, result.get_data())
 
     return result
 
