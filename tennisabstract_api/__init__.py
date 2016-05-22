@@ -10,10 +10,14 @@ driver = webdriver.PhantomJS('./node_modules/phantomjs/bin/phantomjs')
 
 @app.route("/api/players/<name>", methods = ['GET'])
 def player(name):
-    result = get_from_cache(name)
-    if result: return json.loads(result)
+    tennisAbstractName = get_from_cache('nameMapping' + name)
+    result = get_from_cache(tennisAbstractName)
 
-    driver.get("http://www.tennisabstract.com/cgi-bin/player.cgi?p=" + name)
+    if result:
+        return jsonify(json.loads(result))
+
+    tennisAbstractName = get_from_cache('nameMapping' + name)
+    driver.get("http://www.tennisabstract.com/cgi-bin/player.cgi?p=" + tennisAbstractName)
     biography = driver.find_element_by_id("biog")
     player_name = biography.find_element_by_xpath("./table/tbody/tr[1]/td/span").text
     player_dob = biography.find_element_by_xpath("./table/tbody/tr[2]/td").text
@@ -22,9 +26,9 @@ def player(name):
         "name": player_name,
         "dateOfBirth": player_dob
     }
-    store_in_cache(name, result)
+    store_in_cache(tennisAbstractName, json.dumps(result))
 
-    return result
+    return jsonify(result)
 
 
 @app.route('/api/nameMappings/<betfairName>', methods = ['POST'])
