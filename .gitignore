@@ -8,6 +8,9 @@
 ghostdriver.log
 node_modules/*
 
+# redis
+dump.rdb
+
 # Python
 config/dev.py
 env/
