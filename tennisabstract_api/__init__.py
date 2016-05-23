@@ -8,6 +8,11 @@ app = application = Flask(__name__)
 cache = redis.StrictRedis(os.environ['TENNIS_ABSTRACT_REDIS_HOST'], port=6379)
 driver = webdriver.PhantomJS('./node_modules/phantomjs/bin/phantomjs')
 
+@app.route("/health")
+def health():
+    return "I am alive"
+
+
 @app.route("/api/players/<name>", methods = ['GET'])
 def player(name):
     tennisAbstractName = get_from_cache('nameMapping' + name)
