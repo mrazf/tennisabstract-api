@@ -6,9 +6,12 @@ import redis
 
 app = application = Flask(__name__)
 cache = redis.StrictRedis(os.environ['TENNIS_ABSTRACT_REDIS_HOST'], port=6379)
-driver = webdriver.PhantomJS('./node_modules/phantomjs/bin/phantomjs')
+driver = webdriver.PhantomJS(os.environ['TENNIS_ABSTRACT_PHANTOM_PATH'])
 
-@app.route("/health")
+from tennisabstract_api.name_mappings import api
+app.register_blueprint(api)
+
+@app.route("/")
 def health():
     return "I am alive"
 
@@ -32,18 +35,6 @@ def player(name):
         "dateOfBirth": player_dob
     }
     store_in_cache(tennisAbstractName, json.dumps(result))
-
-    return jsonify(result)
-
-
-@app.route('/api/nameMappings/<betfairName>', methods = ['POST'])
-def name_mappings(betfairName):
-    tennisAbstractName = request.json['tennisAbstractName']
-    key = 'nameMapping' + betfairName
-    store_in_cache(key, tennisAbstractName)
-    result = {
-        key: get_from_cache(key)
-    }
 
     return jsonify(result)
 
