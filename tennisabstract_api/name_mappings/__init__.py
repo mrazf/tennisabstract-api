@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, abort
 import boto3
 
 api = Blueprint('name_mappings', __name__)
-dynamodb = boto3.client('dynamodb')
+dynamodb = boto3.client('dynamodb', region_name='eu-west-1')
 
 @api.route('/nameMappings')
 def name_mappings():
