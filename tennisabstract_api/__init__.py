@@ -6,7 +6,7 @@ import redis
 
 app = application = Flask(__name__)
 cache = redis.StrictRedis(os.environ['TENNIS_ABSTRACT_REDIS_HOST'], port=6379)
-driver = webdriver.PhantomJS(os.environ['TENNIS_ABSTRACT_PHANTOM_PATH'])
+driver = webdriver.PhantomJS(os.environ['TENNIS_ABSTRACT_PHANTOM_PATH'], service_log_path=os.path.devnull)
 
 from tennisabstract_api.name_mappings import api
 app.register_blueprint(api)
