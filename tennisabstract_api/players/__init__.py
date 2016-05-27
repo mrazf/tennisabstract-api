@@ -1,9 +1,19 @@
 from flask import Blueprint, jsonify, abort
-from tennisabstract_api import cache
+from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
+from tennisabstract_api import app, cache
 
 players_api = Blueprint('players_api', __name__)
 
-@players_api.route("/api/players/<name>", methods = ['GET'])
+try:
+    driver = webdriver.PhantomJS(os.environ['TENNIS_ABSTRACT_PHANTOM_PATH'], service_log_path=os.path.devnull)
+except WebDriverException as e:
+    app.logger.error(e)
+except Exception as e:
+    app.logger.error(e)
+
+
+@players_api.route("/api/players/<name>", methods=['GET'])
 def player(name):
     tennisAbstractName = get_from_cache('nameMapping' + name)
     result = get_from_cache(tennisAbstractName)
