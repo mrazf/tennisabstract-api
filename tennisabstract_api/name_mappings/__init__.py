@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify, abort
 import boto3
 
-api = Blueprint('name_mappings', __name__)
+name_mappings_api = Blueprint('name_mappings_api', __name__)
 dynamodb = boto3.client('dynamodb', region_name='eu-west-1')
 
-@api.route('/nameMappings')
+@name_mappings_api.route('/nameMappings')
 def name_mappings():
     normalised = map(normalise_mapping, dynamodb.scan(TableName='Players')['Items'])
 
@@ -20,7 +20,7 @@ def normalise_mapping(mapping):
     }
 
 
-@api.route('/nameMappings/<name>')
+@name_mappings_api.route('/nameMappings/<name>')
 def name_mapping(name):
     mapping = dynamodb.get_item(TableName='Players', Key={ 'Name': {'S': str(name)} })
     if 'Item' not in mapping:
