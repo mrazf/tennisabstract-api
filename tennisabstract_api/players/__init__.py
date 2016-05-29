@@ -5,6 +5,7 @@ from tennisabstract_api import app, cache
 
 players_api = Blueprint('players_api', __name__)
 
+driver = None
 try:
     driver = webdriver.PhantomJS(os.environ['TENNIS_ABSTRACT_PHANTOM_PATH'], service_log_path=os.path.devnull)
 except WebDriverException as e:
